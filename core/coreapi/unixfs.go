@@ -46,7 +46,16 @@ func (api *UnixfsAPI) Ls(ctx context.Context, p coreiface.Path) ([]*coreiface.Li
 		return nil, err
 	}
 
-	l := dagnode.Links()
+	dir, err := uio.NewDirectoryFromNode(api.node.DAG, dagnode)
+	if err != nil {
+		return nil, err
+	}
+
+	l, err := dir.Links(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	links := make([]*coreiface.Link, len(l))
 	for i, l := range l {
 		links[i] = &coreiface.Link{l.Name, l.Size, l.Cid}
