@@ -9,33 +9,12 @@ type Datastore struct {
 	StorageGCWatermark int64  // in percentage to multiply on StorageMax
 	GCPeriod           string // in ns, us, ms, s, m, h
 	Path               string
-	NoSync             bool // deprecated
+	NoSync             bool `json:",omitempty"` // deprecated
 
 	Spec map[string]interface{}
 
 	HashOnRead      bool
 	BloomFilterSize int
-}
-
-type S3Datastore struct {
-	Region string `json:"region"`
-	Bucket string `json:"bucket"`
-	ACL    string `json:"acl"`
-}
-
-type FlatDS struct {
-	Path      string
-	ShardFunc string
-	Sync      bool
-}
-
-type LevelDB struct {
-	Path        string
-	Compression string
-}
-
-type SbsDS struct {
-	Path string
 }
 
 // DataStorePath returns the default data store path given a configuration root
